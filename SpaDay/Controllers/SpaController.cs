@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpaDay.Controllers
 {
+    // bound to the /spa route
     public class SpaController : Controller
     {
         public bool CheckSkinType(string skinType, string facialType)
@@ -33,14 +34,16 @@ namespace SpaDay.Controllers
 
         }
 
+        // bound to get requests at /spa
         public IActionResult Index()
         {
+            // string html = "<h1>blah blah etc..."
             return View();
         }
 
         [HttpPost]
         [Route("/spa")]
-        public IActionResult Menu(string name, string skintype, string manipedi)
+        public IActionResult Menu(string name, string skinType, string manipedi)
         {
             List<string> facials = new List<string>()
             {
@@ -50,11 +53,17 @@ namespace SpaDay.Controllers
             List<string> appropriateFacials = new List<string>();
             for (int i = 0; i < facials.Count; i++)
             {
-                if (CheckSkinType(skintype, facials[i]))
+                if (CheckSkinType(skinType, facials[i]))
                 {
                     appropriateFacials.Add(facials[i]);
                 }
             }
+
+            ViewBag.name = name;
+            ViewBag.skinType = skinType;
+            ViewBag.appropriateFacials = appropriateFacials;
+            ViewBag.manipedi = manipedi;
+
             return View();
         }
 
